@@ -584,13 +584,13 @@ std::vector<float> JacobiKokkos(
 |-----|----|------|----|
 |3822B1FI1|rezantseva_anastasia|0.4031|4|
 |3822B1FI1|beskhmelnova_kseniya|0.4091|2|
+|3822B1FI1|shulpin_ilya|0.4137|5|
 |3822B1FI3|lopatin_ilya|0.4338|3|
 |3822B1FI1|solovev_alexey|0.4340|3|
 |3822B1FI1|chistov_alexey|0.4392|1|
 |**REF**|**REF**|**0.4392**|**-**|
 |3822B1FI3|kolodkin_grigorii|0.4450|1|
 |3822B1FI3|frolova_elizaveta|0.4468|2|
-|3822B1FI1|shulpin_ilya|BUILD FAILED|-|
 |3822B1FI1|drozhdinov_dmitriy|BUILD FAILED|-|
 
 ## 8_integral_kokkos (65536 elements)
@@ -621,13 +621,13 @@ std::vector<float> JacobiKokkos(
 |Group|Name|Passed|Score|
 |-----|----|------|-----|
 |3822B1FI1|beskhmelnova_kseniya|**9/9**|**544**|
-|3822B1FI1|chistov_alexey|**9/9**|**551**|
+|3822B1FI1|chistov_alexey|**9/9**|**550**|
 |3822B1FI1|drozhdinov_dmitriy|6/9|341|
 |3822B1FI1|kabalova_valeria|2/9|117|
 |3822B1FI1|rezantseva_anastasia|**9/9**|**527**|
-|3822B1FI1|shulpin_ilya|3/9|163|
+|3822B1FI1|shulpin_ilya|4/9|221|
 |3822B1FI1|shurigin_sergey|6/9|344|
-|3822B1FI1|solovev_alexey|**9/9**|**529**|
+|3822B1FI1|solovev_alexey|**9/9**|**528**|
 
 Passed: 4
 
