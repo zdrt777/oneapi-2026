@@ -3,82 +3,72 @@
 #include <vector>
 
 std::vector<float> JacobiSharedONEAPI(
-        const std::vector<float>& a, const std::vector<float>& b,
-        float accuracy, sycl::device device) {
+        const std::vector<float>& a,
+        const std::vector<float>& b,
+        float accuracy,
+        sycl::device device) {
     
-    sycl::queue queue(device);
+    const size_t n = b.size();
+    const float accuracy_sq = accuracy * accuracy;
     
-    int n = b.size();
-    std::vector<float> x(n, 0.0f);
-    std::vector<float> x_new(n, 0.0f);
+    sycl::queue q(device, sycl::property::queue::in_order{});
     
-    float* a_shared = sycl::malloc_shared<float>(a.size(), queue);
-    float* b_shared = sycl::malloc_shared<float>(b.size(), queue);
-    float* x_shared = sycl::malloc_shared<float>(n, queue);
-    float* x_new_shared = sycl::malloc_shared<float>(n, queue);
+    float* A = sycl::malloc_shared<float>(a.size(), q);
+    float* B = sycl::malloc_shared<float>(b.size(), q);
+    float* X = sycl::malloc_shared<float>(n, q);
+    float* Xnew = sycl::malloc_shared<float>(n, q);
+    float* norm = sycl::malloc_shared<float>(1, q);
     
-    queue.memcpy(a_shared, a.data(), a.size() * sizeof(float)).wait();
-    queue.memcpy(b_shared, b.data(), b.size() * sizeof(float)).wait();
+    for (size_t i = 0; i < a.size(); ++i) A[i] = a[i];
+    for (size_t i = 0; i < b.size(); ++i) B[i] = b[i];
+    for (size_t i = 0; i < n; ++i) X[i] = 0.0f;
     
-    for (int i = 0; i < n; ++i) {
-        x_shared[i] = 0.0f;
-        x_new_shared[i] = 0.0f;
-    }
-    
-    bool converged = false;
-    
-    for (int iter = 0; iter < ITERATIONS && !converged; ++iter) {
-        queue.submit([&](sycl::handler& cgh) {
-            cgh.parallel_for(sycl::range<1>(n), [=](sycl::id<1> idx) {
-                int i = idx[0];
-                float sum = 0.0f;
-                float a_ii = a_shared[i * n + i];
-                
-                for (int j = 0; j < n; ++j) {
-                    if (j != i) {
-                        sum += a_shared[i * n + j] * x_shared[j];
-                    }
+    for (int iter = 0; iter < ITERATIONS; ++iter) {
+        q.parallel_for(sycl::range<1>(n), [=](sycl::id<1> id) {
+            size_t i = id[0];
+            float sum = 0.0f;
+            size_t row = i * n;
+            
+            for (size_t j = 0; j < n; ++j) {
+                if (j != i) {
+                    sum += A[row + j] * X[j];
                 }
-                
-                x_new_shared[i] = (b_shared[i] - sum) / a_ii;
-            });
+            }
+            
+            Xnew[i] = (B[i] - sum) / A[row + i];
         });
         
-        queue.wait();
+        *norm = 0.0f;
         
-        float diff_norm = 0.0f;
+        q.submit([&](sycl::handler& h) {
+            auto red = sycl::reduction(norm, sycl::plus<float>());
+            
+            h.parallel_for(
+                sycl::range<1>(n),
+                red,
+                [=](sycl::id<1> id, auto& sum) {
+                    float diff = Xnew[id] - X[id];
+                    sum += diff * diff;
+                });
+        }).wait();
         
-        queue.submit([&](sycl::handler& cgh) {
-            cgh.parallel_for(sycl::range<1>(n), [=](sycl::id<1> idx) {
-                int i = idx[0];
-                float diff = sycl::fabs(x_new_shared[i] - x_shared[i]);
-                
-                sycl::atomic_ref<float, sycl::memory_order::relaxed,
-                                  sycl::memory_scope::system> atomic_diff(diff_norm);
-                if (diff > atomic_diff.load()) {
-                    atomic_diff.store(diff);
-                }
-            });
-        });
-        
-        queue.wait();
-        
-        std::swap(x, x_new);
-        std::swap(x_shared, x_new_shared);
-        
-        if (diff_norm < accuracy) {
-            converged = true;
+        if (*norm < accuracy_sq) {
+            break;
         }
+        
+        std::swap(X, Xnew);
     }
     
-    for (int i = 0; i < n; ++i) {
-        x[i] = x_shared[i];
+    std::vector<float> result(n);
+    for (size_t i = 0; i < n; ++i) {
+        result[i] = X[i];
     }
     
-    sycl::free(a_shared, queue);
-    sycl::free(b_shared, queue);
-    sycl::free(x_shared, queue);
-    sycl::free(x_new_shared, queue);
+    sycl::free(A, q);
+    sycl::free(B, q);
+    sycl::free(X, q);
+    sycl::free(Xnew, q);
+    sycl::free(norm, q);
     
-    return x;
+    return result;
 }

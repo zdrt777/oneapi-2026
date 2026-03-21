@@ -1,44 +1,43 @@
 #include "mkl_gemm_oneapi.h"
-#include <oneapi/mkl/blas.hpp>
+#include <oneapi/mkl.hpp>
 #include <vector>
 
 std::vector<float> GemmMklONEAPI(
-        const std::vector<float>& a, const std::vector<float>& b,
-        size_t size, sycl::device device) {
+        const std::vector<float>& left,
+        const std::vector<float>& right,
+        size_t size,
+        sycl::device device) {
     
-    sycl::queue queue(device);
+    sycl::queue exec_queue(device);
     
-    std::vector<float> c(size * size, 0.0f);
+    const size_t dim = size;
+    const float scaleA = 1.0f;
+    const float scaleB = 0.0f;
     
-    float* a_dev = sycl::malloc_device<float>(a.size(), queue);
-    float* b_dev = sycl::malloc_device<float>(b.size(), queue);
-    float* c_dev = sycl::malloc_device<float>(c.size(), queue);
+    std::vector<float> output(dim * dim, 0.0f);
     
-    queue.memcpy(a_dev, a.data(), a.size() * sizeof(float)).wait();
-    queue.memcpy(b_dev, b.data(), b.size() * sizeof(float)).wait();
-    queue.memset(c_dev, 0, c.size() * sizeof(float)).wait();
+    sycl::buffer<float> buf_left(left.data(), sycl::range<1>(left.size()));
+    sycl::buffer<float> buf_right(right.data(), sycl::range<1>(right.size()));
+    sycl::buffer<float> buf_out(output.data(), sycl::range<1>(output.size()));
     
-    float alpha = 1.0f;
-    float beta = 0.0f;
-    
-    oneapi::mkl::blas::column_major::gemm(
-        queue,
+    oneapi::mkl::blas::row_major::gemm(
+        exec_queue,
         oneapi::mkl::transpose::nontrans,
         oneapi::mkl::transpose::nontrans,
-        size, size, size,
-        alpha,
-        a_dev, size,
-        b_dev, size,
-        beta,
-        c_dev, size);
+        dim,
+        dim,
+        dim,
+        scaleA,
+        buf_left,
+        dim,
+        buf_right,
+        dim,
+        scaleB,
+        buf_out,
+        dim
+    );
     
-    queue.wait();
+    exec_queue.wait();
     
-    queue.memcpy(c.data(), c_dev, c.size() * sizeof(float)).wait();
-    
-    sycl::free(a_dev, queue);
-    sycl::free(b_dev, queue);
-    sycl::free(c_dev, queue);
-    
-    return c;
+    return output;
 }
