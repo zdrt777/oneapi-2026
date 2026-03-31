@@ -1,64 +1,65 @@
 #include "acc_jacobi_oneapi.h"
+#include <cmath>
+#include <utility>
 
 std::vector<float> JacobiAccONEAPI(
-        const std::vector<float>& a, const std::vector<float>& b,
-        float accuracy, sycl::device device) {
+    const std::vector<float>& a, const std::vector<float>& b,
+    float accuracy, sycl::device device) {
+
+    const size_t n = b.size();
+    const float eps_sq = accuracy * accuracy;
     
-    int n = b.size();
+    sycl::queue q{device, sycl::property::queue::in_order{}};
+
     std::vector<float> x_host(n, 0.0f);
-    std::vector<float> x_next_host(n, 0.0f);
+    
+    sycl::buffer<float, 1> buf_a{a.data(), sycl::range<1>(a.size())};
+    sycl::buffer<float, 1> buf_b{b.data(), sycl::range<1>(n)};
+    sycl::buffer<float, 1> buf_curr{x_host.data(), sycl::range<1>(n)};
+    sycl::buffer<float, 1> buf_next{sycl::range<1>(n)};
 
-    sycl::queue q(device);
+    for (int k = 0; k < ITERATIONS; ++k) {
+        float iter_diff_sq = 0.0f;
+        sycl::buffer<float, 1> buf_diff{&iter_diff_sq, 1};
 
-    {
-        sycl::buffer<float, 1> buf_a(a.data(), sycl::range<1>(a.size()));
-        sycl::buffer<float, 1> buf_b(b.data(), sycl::range<1>(b.size()));
-        sycl::buffer<float, 1> buf_x(x_host.data(), sycl::range<1>(n));
-        sycl::buffer<float, 1> buf_x_next(x_next_host.data(), sycl::range<1>(n));
+        q.submit([&](sycl::handler& h) {
+            auto A = buf_a.get_access<sycl::access::mode::read>(h);
+            auto B = buf_b.get_access<sycl::access::mode::read>(h);
+            auto X = buf_curr.get_access<sycl::access::mode::read>(h);
+            auto Xn = buf_next.get_access<sycl::access::mode::write>(h);
 
-        for (int k = 0; k < ITERATIONS; ++k) {
-            float diff = 0.0f;
-            sycl::buffer<float, 1> buf_diff(&diff, 1);
+            auto red = sycl::reduction(buf_diff, h, sycl::plus<float>());
 
-            q.submit([&](sycl::handler& h) {
-                auto A = buf_a.get_access<sycl::access::mode::read>(h);
-                auto B = buf_b.get_access<sycl::access::mode::read>(h);
-                auto X = buf_x.get_access<sycl::access::mode::read>(h);
-                auto X_next = buf_x_next.get_access<sycl::access::mode::write>(h);
+            h.parallel_for(sycl::range<1>(n), red, [=](sycl::id<1> id, auto& error_sum) {
+                size_t i = id[0];
+                float sigma = 0.0f;
+                size_t row_start = i * n;
 
-                auto red = sycl::reduction(buf_diff, h, sycl::maximum<float>());
-
-                h.parallel_for(sycl::range<1>(n), red, [=](sycl::id<1> idx, auto& max_diff) {
-                    int i = idx[0];
-                    float sum = 0.0f;
-                    
-                    for (int j = 0; j < n; ++j) {
-                        if (i != j) {
-                            sum += A[i * n + j] * X[j];
-                        }
+                for (size_t j = 0; j < n; ++j) {
+                    if (i != j) {
+                        sigma += A[row_start + j] * X[j];
                     }
-                    
-                    X_next[i] = (B[i] - sum) / A[i * n + i];
-                    
-                    max_diff.combine(sycl::fabs(X_next[i] - X[i]));
-                });
+                }
+                
+                float res = (B[i] - sigma) / A[row_start + i];
+                Xn[i] = res;
+
+                float delta = res - X[i];
+                error_sum += delta * delta;
             });
+        });
 
-            q.wait();
-            
-            auto acc_diff = buf_diff.get_host_access();
-            if (acc_diff[0] < accuracy) {
-                auto final_acc = buf_x_next.get_host_access();
-                for(int i=0; i<n; ++i) x_host[i] = final_acc[i];
-                return x_host;
-            }
-
-            std::swap(buf_x, buf_x_next);
+        {
+            auto diff_acc = buf_diff.get_host_access();
+            if (diff_acc[0] < eps_sq) break;
         }
-        
-        auto final_acc = buf_x.get_host_access();
-        for(int i=0; i<n; ++i) x_host[i] = final_acc[i];
+
+        std::swap(buf_curr, buf_next);
     }
 
-    return x_host;
+    std::vector<float> final_res(n);
+    auto last_acc = buf_curr.get_host_access();
+    for (size_t i = 0; i < n; ++i) final_res[i] = last_acc[i];
+
+    return final_res;
 }
