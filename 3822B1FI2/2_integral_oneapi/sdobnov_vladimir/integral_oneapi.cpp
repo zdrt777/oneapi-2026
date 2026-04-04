@@ -3,38 +3,34 @@
 #include <cmath>
 
 float IntegralONEAPI(float start, float end, int count, sycl::device device) {
-	sycl::queue q(device);
+    sycl::queue q(device);
 
-	const float step = (end - start) / count;
-	const int total = count * count;
+    const float step = (end - start) / count;
+    const float area = step * step;
+    const int total = count * count;
 
-	float result = 0.0f;
+    float* partial = sycl::malloc_shared<float>(total, q);
 
-	{
-		sycl::buffer<float> result_buf(&result, sycl::range<1>(1));
+    q.parallel_for(sycl::range<1>(total), [=](sycl::id<1> id) {
+        int idx = id[0];
 
-		q.submit([&](sycl::handler& h) {
-			auto reduction = sycl::reduction(
-				result_buf, h, 0.0f, std::plus<>()
-			);
+        int i = idx / count;
+        int j = idx % count;
 
-			h.parallel_for(
-				sycl::range<1>(total),
-				reduction,
-				[=](sycl::id<1> id, auto& sum) {
-					int idx = id[0];
+        float x = start + (i + 0.5f) * step;
+        float y = start + (j + 0.5f) * step;
 
-					int i = idx / count;
-					int j = idx % count;
+        partial[idx] = sycl::sin(x) * sycl::cos(y) * area;
+        });
 
-					float x = start + (i + 0.5f) * step;
-					float y = start + (j + 0.5f) * step;
+    q.wait();
 
-					sum += sycl::sin(x) * sycl::cos(y) * step * step;
-				}
-			);
-			});
-	}
+    float result = 0.0f;
+    for (int i = 0; i < total; i++) {
+        result += partial[i];
+    }
 
-	return result;
+    sycl::free(partial, q);
+
+    return result;
 }
