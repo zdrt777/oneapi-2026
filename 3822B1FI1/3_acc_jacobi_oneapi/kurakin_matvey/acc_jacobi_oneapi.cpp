@@ -2,8 +2,8 @@
 #include <algorithm>
 #include <cmath>
 
-std::vector<float> JacobiAccONEAPI(const std::vector<float> a,
-                                   const std::vector<float> b, float accuracy,
+std::vector<float> JacobiAccONEAPI(const std::vector<float> &a,
+                                   const std::vector<float> &b, float accuracy,
                                    sycl::device device) {
 
   const size_t n = static_cast<size_t>(std::sqrt(a.size()));
