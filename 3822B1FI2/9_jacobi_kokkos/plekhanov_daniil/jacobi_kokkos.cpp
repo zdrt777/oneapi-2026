@@ -1,84 +1,78 @@
 #include "jacobi_kokkos.h"
 
-#include <limits>
 #include <cmath>
 
 std::vector<float> JacobiKokkos(
-        const std::vector<float>& a,
-        const std::vector<float>& b,
-        float accuracy) {
-    
-    int n = b.size();
+  const std::vector<float>& a,
+  const std::vector<float>& b,
+  float accuracy) {
 
-    Kokkos::View<float*, Kokkos::SYCLDeviceUSMSpace> a_dev("a_dev", a.size());
-    Kokkos::View<float*, Kokkos::SYCLDeviceUSMSpace> b_dev("b_dev", n);
-    Kokkos::View<float*, Kokkos::SYCLDeviceUSMSpace> x_dev("x_dev", n);
-    Kokkos::View<float*, Kokkos::SYCLDeviceUSMSpace> x_new_dev("x_new_dev", n);
+  using ExecSpace = Kokkos::SYCL;
+  using MemSpace = Kokkos::SYCLDeviceUSMSpace;
 
-    auto a_host = Kokkos::create_mirror_view(a_dev);
-    auto b_host = Kokkos::create_mirror_view(b_dev);
-    auto x_host = Kokkos::create_mirror_view(x_dev);
+  const int n = b.size();
 
-    for (size_t i = 0; i < a.size(); ++i) {
-        a_host(i) = a[i];
+  Kokkos::View<float**, Kokkos::LayoutLeft, MemSpace> a_dev("a_dev", n, n);
+  Kokkos::View<float*, MemSpace> b_dev("b_dev", n);
+  Kokkos::View<float*, MemSpace> prev_dev("prev_dev", n);
+  Kokkos::View<float*, MemSpace> curr_dev("curr_dev", n);
+
+  auto a_host = Kokkos::create_mirror_view(a_dev);
+  auto b_host = Kokkos::create_mirror_view(b_dev);
+
+  for (int i = 0; i < n; ++i) {
+    b_host(i) = b[i];
+    for (int j = 0; j < n; ++j) {
+      a_host(i, j) = a[i * n + j];
     }
+  }
 
-    for (int i = 0; i < n; ++i) {
-        b_host(i) = b[i];
-        x_host(i) = 0.0f;
-    }
+  Kokkos::deep_copy(a_dev, a_host);
+  Kokkos::deep_copy(b_dev, b_host);
+  Kokkos::deep_copy(prev_dev, 0.0f);
+  Kokkos::deep_copy(curr_dev, 0.0f);
 
-    Kokkos::deep_copy(a_dev, a_host);
-    Kokkos::deep_copy(b_dev, b_host);
-    Kokkos::deep_copy(x_dev, x_host);
+  for (int iter = 0; iter < ITERATIONS; ++iter) {
+    Kokkos::parallel_for(
+      Kokkos::RangePolicy<ExecSpace>(0, n),
+      KOKKOS_LAMBDA(int i) {
+      float value = b_dev(i);
 
-    bool converged = false;
-
-    for (int iter = 0; iter < ITERATIONS && !converged; ++iter) {
-
-        Kokkos::parallel_for(
-            Kokkos::RangePolicy<Kokkos::SYCL>(0, n),
-            KOKKOS_LAMBDA(int i) {
-
-                float sum = 0.0f;
-                float a_ii = a_dev(i * n + i);
-
-                for (int j = 0; j < n; ++j) {
-                    if (j != i) {
-                        sum += a_dev(i * n + j) * x_dev(j);
-                    }
-                }
-
-                x_new_dev(i) = (b_dev(i) - sum) / a_ii;
-            }
-        );
-
-        float diff_norm = -std::numeric_limits<float>::infinity();
-
-        Kokkos::parallel_reduce(
-            Kokkos::RangePolicy<Kokkos::SYCL>(0, n),
-            KOKKOS_LAMBDA(int i, float& max_diff) {
-                float diff = fabs(x_new_dev(i) - x_dev(i));
-                if (diff > max_diff) {
-                    max_diff = diff;
-                }
-            },
-            Kokkos::Max<float>(diff_norm)
-        );
-
-        Kokkos::swap(x_dev, x_new_dev);
-
-        if (diff_norm < accuracy) {
-            converged = true;
+      for (int j = 0; j < n; ++j) {
+        if (i != j) {
+          value -= a_dev(i, j) * prev_dev(j);
         }
+      }
+
+      curr_dev(i) = value / a_dev(i, i);
+    });
+
+    float error = 0.0f;
+    Kokkos::parallel_reduce(
+      Kokkos::RangePolicy<ExecSpace>(0, n),
+      KOKKOS_LAMBDA(int i, float& local_max) {
+      float diff = Kokkos::fabs(curr_dev(i) - prev_dev(i));
+      if (diff > local_max) {
+        local_max = diff;
+      }
+    },
+      Kokkos::Max<float>(error));
+
+    if (error < accuracy) {
+      Kokkos::deep_copy(prev_dev, curr_dev);
+      break;
     }
 
-    Kokkos::deep_copy(x_host, x_dev);
+    Kokkos::deep_copy(prev_dev, curr_dev);
+  }
 
-    std::vector<float> x(n);
-    for (int i = 0; i < n; ++i) {
-        x[i] = x_host(i);
-    }
+  auto result_host =
+    Kokkos::create_mirror_view_and_copy(Kokkos::HostSpace(), prev_dev);
 
-    return x;
+  std::vector<float> result(n);
+  for (int i = 0; i < n; ++i) {
+    result[i] = result_host(i);
+  }
+
+  return result;
 }
