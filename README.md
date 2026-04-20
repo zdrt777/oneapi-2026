@@ -766,6 +766,7 @@ std::vector<float> JacobiKokkos(
 |3822B1FI1|kurakin_matvey|2.9994|9|
 |3822B1FI1|shurigin_sergey|2.9995|8|
 |3822B1FI1|ivanov_mikhail|2.9996|12|
+|3822B1FI3|sozonov_ilya|BUILD FAILED|-|
 
 ## 9_jacobi_kokkos (4096 elements)
 |Group|Name|Result|Rank|
