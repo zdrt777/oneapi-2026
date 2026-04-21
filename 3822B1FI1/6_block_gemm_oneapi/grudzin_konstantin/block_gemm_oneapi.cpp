@@ -1,11 +1,11 @@
-#include "block_gemm_oneapi.handler"
+#include "block_gemm_oneapi.h"
 #include <vector>
 #include <iostream>
 #include <cassert>
 
 std::vector<float> GemmBlockONEAPI(
-    const std::vector<float>& a,
-    const std::vector<float>& b,
+    const std::vector<float> &a,
+    const std::vector<float> &b,
     size_t size,
     sycl::device device)
 {
@@ -24,7 +24,8 @@ std::vector<float> GemmBlockONEAPI(
 
         size_t num_blocks = size / BLOCK_SIZE;
 
-        queue.submit([&](sycl::handler& handler) {
+        queue.submit([&](sycl::handler &handler)
+                     {
             auto aAcc = aBuffer.get_access<sycl::access::mode::read>(handler);
             auto bAcc = bBuffer.get_access<sycl::access::mode::read>(handler);
             auto cAcc = cBuffer.get_access<sycl::access::mode::write>(handler);
@@ -70,12 +71,10 @@ std::vector<float> GemmBlockONEAPI(
 
                     cAcc[i * size + j] = sum;
                 }
-            );
-        });
+            ); });
 
         queue.wait();
     }
 
     return c;
 }
-
