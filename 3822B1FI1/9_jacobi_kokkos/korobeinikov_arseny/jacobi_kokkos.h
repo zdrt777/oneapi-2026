@@ -1,8 +1,15 @@
-#ifndef __INTEGRAL_KOKKOS_H
-#define __INTEGRAL_KOKKOS_H
+#ifndef __JACOBI_KOKKOS_H
+#define __JACOBI_KOKKOS_H
+
+#include <vector>
 
 #include <Kokkos_Core.hpp>
 
-float IntegralKokkos(float start, float end, int count);
+#define ITERATIONS 1024
 
-#endif  // __INTEGRAL_KOKKOS_H
+std::vector<float> JacobiKokkos(
+        const std::vector<float>& a,
+        const std::vector<float>& b,
+        float accuracy);
+
+#endif  // __JACOBI_KOKKOS_H
