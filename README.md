@@ -611,7 +611,7 @@ std::vector<float> JacobiKokkos(
 |3822B1FI2|sdobnov_vladimir|0.4597|4|
 |3822B1FI1|drozhdinov_dmitriy|0.5052|2|
 |3822B1FI1|suvorov_dmitrii|TEST FAILED|-|
-|3822B1FI1|vershinina_olga|TEST FAILED|-|
+|3822B1FI1|vershinina_olga|BUILD FAILED|-|
 |3822B1FI1|kuznetsov_mikhail|BUILD FAILED|-|
 |3822B1FI2|guseynov_emil|TOO SLOW|-|
 |3822B1FI2|vyunova_ekaterina|BUILD FAILED|-|
