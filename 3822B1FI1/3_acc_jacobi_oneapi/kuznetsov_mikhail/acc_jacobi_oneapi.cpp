@@ -14,8 +14,8 @@ std::vector<float> JacobiAccONEAPI(
 
     sycl::buffer<float, 1> mat(a.data(), sycl::range<1>{a.size()});
     sycl::buffer<float, 1> vec_b(b.data(), sycl::range<1>{b.size()});
-    sycl::buffer<float, 1> x_old(x_init.data(), sycl::range<1>{n});
-    sycl::buffer<float, 1> x_new(x_tmp.data(), sycl::range<1>{n});
+    sycl::buffer<float, 1> x_old(x_init.data(), sycl::range<1>(n));
+    sycl::buffer<float, 1> x_new(x_tmp.data(), sycl::range<1>(n));
 
     for (int iter = 0; iter < ITERATIONS; ++iter) {
         q.submit([&](sycl::handler& h) {
@@ -24,7 +24,7 @@ std::vector<float> JacobiAccONEAPI(
             auto Xp = x_old.get_access<sycl::access::mode::read>(h);
             auto Xc = x_new.get_access<sycl::access::mode::write>(h);
 
-            h.parallel_for<class jacobi_step>(sycl::range<1>{n}, [=](sycl::id<1> idx) {
+            h.parallel_for<class jacobi_step>(sycl::range<1>(n), [=](sycl::id<1> idx) {
                 int i = idx[0];
                 float sum = 0.0f;
 
