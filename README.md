@@ -757,7 +757,7 @@ std::vector<float> JacobiKokkos(
 |3822B1FI3|kolodkin_grigorii|2.1427|1|
 |3822B1FI2|vyunov_danila|3.1434|7|
 |3822B1FI1|shulpin_ilya|3.5330|7|
-|3822B1FI1|kabalova_valeria|TOO SLOW|-|
+|3822B1FI1|kabalova_valeria|RUN FAILED|-|
 
 ## 7_mkl_gemm_oneapi (3072 elements)
 |Group|Name|Result|Rank|
