@@ -1,33 +1,19 @@
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:12:39: error: non-constant-expression cannot be narrowed from type 'int' to 'typename std::enable_if_t<(2 == 2), size_t>' (aka 'unsigned long') in initializer list [-Wc++11-narrowing]
-   12 |         h.parallel_for(sycl::range<2>{count, count},
-      |                                       ^~~~~
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:12:39: note: insert an explicit cast to silence this issue
-   12 |         h.parallel_for(sycl::range<2>{count, count},
-      |                                       ^~~~~
-      |                                       static_cast<type>( )
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:12:46: error: non-constant-expression cannot be narrowed from type 'int' to 'size_t' (aka 'unsigned long') in initializer list [-Wc++11-narrowing]
-   12 |         h.parallel_for(sycl::range<2>{count, count},
-      |                                              ^~~~~
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:12:46: note: insert an explicit cast to silence this issue
-   12 |         h.parallel_for(sycl::range<2>{count, count},
-      |                                              ^~~~~
-      |                                              static_cast<size_t>( )
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:17:57: error: invalid operands to binary expression ('float' and 'const sycl::handler')
-   17 |                            float x = start + (i + 0.5f) * h;
-      |                                              ~~~~~~~~~~ ^ ~
 /home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:18:57: error: invalid operands to binary expression ('float' and 'const sycl::handler')
-   18 |                            float y = start + (j + 0.5f) * h;
+   18 |                            float x = start + (i + 0.5f) * h;
       |                                              ~~~~~~~~~~ ^ ~
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:14:25: error: call to deleted constructor of 'sycl::handler'
-   14 |                        [=](sycl::id<2> idx, auto& sum) {
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:19:57: error: invalid operands to binary expression ('float' and 'const sycl::handler')
+   19 |                            float y = start + (j + 0.5f) * h;
+      |                                              ~~~~~~~~~~ ^ ~
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:15:25: error: call to deleted constructor of 'sycl::handler'
+   15 |                        [=](sycl::id<2> idx, auto& sum) {
       |                         ^
 /opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/handler.hpp:1730:3: note: 'handler' has been explicitly marked deleted here
  1730 |   handler(const handler &) = delete;
       |   ^
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:14:24: error: attempt to use a deleted function
-   14 |                        [=](sycl::id<2> idx, auto& sum) {
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:15:24: error: attempt to use a deleted function
+   15 |                        [=](sycl::id<2> idx, auto& sum) {
       |                        ^
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:17:59: note: destructor of '(lambda at /home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:14:24)' is implicitly deleted because field 'h' has an inaccessible destructor
-   17 |                            float x = start + (i + 0.5f) * h;
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:18:59: note: destructor of '(lambda at /home/crazyproger/sandbox/oneapi-2026/3822B1FI3/2_integral_oneapi/budazhapova_ekaterina/integral_oneapi.cpp:15:24)' is implicitly deleted because field 'h' has an inaccessible destructor
+   18 |                            float x = start + (i + 0.5f) * h;
       |                                                           ^
-6 errors generated.
+4 errors generated.

@@ -1,39 +1,103 @@
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:13:34: warning: parentheses were disambiguated as a function declaration [-Wvexing-parse]
-   13 |     sycl::buffer<float> buf_x_old(sycl::range<1>(N));
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:12:34: warning: parentheses were disambiguated as a function declaration [-Wvexing-parse]
+   12 |     sycl::buffer<float> buf_x_old(sycl::range<1>(N));
       |                                  ^~~~~~~~~~~~~~~~~~~
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:13:35: note: add a pair of parentheses to declare a variable
-   13 |     sycl::buffer<float> buf_x_old(sycl::range<1>(N));
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:12:35: note: add a pair of parentheses to declare a variable
+   12 |     sycl::buffer<float> buf_x_old(sycl::range<1>(N));
       |                                   ^                
       |                                   (                )
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:14:34: warning: parentheses were disambiguated as a function declaration [-Wvexing-parse]
-   14 |     sycl::buffer<float> buf_x_new(sycl::range<1>(N));
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:13:34: warning: parentheses were disambiguated as a function declaration [-Wvexing-parse]
+   13 |     sycl::buffer<float> buf_x_new(sycl::range<1>(N));
       |                                  ^~~~~~~~~~~~~~~~~~~
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:14:35: note: add a pair of parentheses to declare a variable
-   14 |     sycl::buffer<float> buf_x_new(sycl::range<1>(N));
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:13:35: note: add a pair of parentheses to declare a variable
+   13 |     sycl::buffer<float> buf_x_new(sycl::range<1>(N));
       |                                   ^                
       |                                   (                )
 /home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:17:31: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
    17 |         auto x_old = buf_x_old.get_access<sycl::access::mode::write>(h);
       |                      ~~~~~~~~~^~~~~~~~~~~
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:28:35: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
-   28 |             auto x_old = buf_x_old.get_access<sycl::access::mode::read>(h);
-      |                          ~~~~~~~~~^~~~~~~~~~~
 /home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:29:35: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
-   29 |             auto x_new = buf_x_new.get_access<sycl::access::mode::write>(h);
+   29 |             auto x_old = buf_x_old.get_access<sycl::access::mode::read>(h);
       |                          ~~~~~~~~~^~~~~~~~~~~
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:42:36: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
-   42 |         auto x_old_host = buf_x_old.get_host_access();
-      |                           ~~~~~~~~~^~~~~~~~~~~~~~~~
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:43:36: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
-   43 |         auto x_new_host = buf_x_new.get_host_access();
-      |                           ~~~~~~~~~^~~~~~~~~~~~~~~~
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:52:35: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
-   52 |             auto x_old = buf_x_old.get_access<sycl::access::mode::write>(h);
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:30:35: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
+   30 |             auto x_new = buf_x_new.get_access<sycl::access::mode::write>(h);
       |                          ~~~~~~~~~^~~~~~~~~~~
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:53:35: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
-   53 |             auto x_new = buf_x_new.get_access<sycl::access::mode::read>(h);
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:48:35: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
+   48 |             auto x_old = buf_x_old.get_access<sycl::access::mode::read>(h);
       |                          ~~~~~~~~~^~~~~~~~~~~
-/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:61:29: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
-   61 |     auto res_acc = buf_x_new.get_host_access();
-      |                    ~~~~~~~~~^~~~~~~~~~~~~~~~
-2 warnings and 8 errors generated.
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:49:35: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
+   49 |             auto x_new = buf_x_new.get_access<sycl::access::mode::read>(h);
+      |                          ~~~~~~~~~^~~~~~~~~~~
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:65:35: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
+   65 |             auto x_old = buf_x_old.get_access<sycl::access::mode::write>(h);
+      |                          ~~~~~~~~~^~~~~~~~~~~
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:66:35: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
+   66 |             auto x_new = buf_x_new.get_access<sycl::access::mode::read>(h);
+      |                          ~~~~~~~~~^~~~~~~~~~~
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:75:33: error: member reference base type 'sycl::buffer<float> (sycl::range<1>)' is not a structure or union
+   75 |         auto res_acc = buf_x_new.get_host_access();
+      |                        ~~~~~~~~~^~~~~~~~~~~~~~~~
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:55:42: error: no matching function for call to 'max'
+   55 |                                max_val = sycl::max(max_val, diff);
+      |                                          ^~~~~~~~~
+/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/type_traits:2530:7: note: in instantiation of function template specialization 'JacobiAccONEAPI(const std::vector<float> &, const std::vector<float> &, float, sycl::device)::(anonymous class)::operator()(sycl::handler &)::(anonymous class)::operator()<sycl::reducer<float, sycl::maximum<float>, 0, 1, sycl::detail::ReductionIdentityContainer<float, sycl::maximum<float>, false>>>' requested here
+ 2530 |       std::declval<_Fn>()(std::declval<_Args>()...)
+      |       ^
+/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/type_traits:2541:24: note: while substituting deduced template arguments into function template '_S_test' [with _Fn = (lambda at /home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:53:28), _Args = (no value)]
+ 2541 |       typedef decltype(_S_test<_Functor, _ArgTypes...>(0)) type;
+      |                        ^
+/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/type_traits:2547:14: note: in instantiation of template class 'std::__result_of_impl<false, false, (lambda at /home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:53:28), sycl::id<1>, sycl::reducer<float, sycl::maximum<float>, 0, 1, sycl::detail::ReductionIdentityContainer<float, sycl::maximum<float>, false>> &>' requested here
+ 2547 |     : public __result_of_impl<
+      |              ^
+/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/type_traits:2888:29: note: in instantiation of template class 'std::__invoke_result<(lambda at /home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:53:28), sycl::id<1>, sycl::reducer<float, sycl::maximum<float>, 0, 1, sycl::detail::ReductionIdentityContainer<float, sycl::maximum<float>, false>> &>' requested here
+ 2888 |                                __void_t<typename _Result::type>>
+      |                                                  ^
+/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/type_traits:3021:7: note: during template argument deduction for class template partial specialization '__is_invocable_impl<_Result, _Ret, true, __void_t<typename _Result::type>>' [with _Result = std::__invoke_result<(lambda at /home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:53:28), sycl::id<1>, sycl::reducer<float, sycl::maximum<float>, 0, 1, sycl::detail::ReductionIdentityContainer<float, sycl::maximum<float>, false>> &>, _Ret = void]
+ 3021 |     : __is_invocable_impl<__invoke_result<_Fn, _ArgTypes...>, void>::type
+      |       ^
+/usr/lib/gcc/x86_64-linux-gnu/11/../../../../include/c++/11/type_traits:3021:7: note: (skipping 7 contexts in backtrace; use -ftemplate-backtrace-limit=0 to see all)
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/reduction.hpp:2702:40: note: in instantiation of function template specialization 'sycl::detail::NDRangeReduction<sycl::detail::reduction::strategy::group_reduce_and_last_wg_detection>::run<sycl::detail::auto_name, 1, sycl::ext::oneapi::experimental::properties<detail::properties_type_list<>>, (lambda at /opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/reduction.hpp:2763:28), sycl::detail::reduction_impl<float, sycl::maximum<float>, 0, 1, false, sycl::buffer<float>>>' requested here
+ 2702 |   NDRangeReduction<Strategy>::template run<KernelName>(CGH, CGH.MQueue, NDRange,
+      |                                        ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/reduction.hpp:2819:5: note: in instantiation of function template specialization 'sycl::detail::reduction_parallel_for<sycl::detail::auto_name, sycl::detail::reduction::strategy::group_reduce_and_last_wg_detection, 1, sycl::ext::oneapi::experimental::properties<detail::properties_type_list<>>, sycl::detail::reduction_impl<float, sycl::maximum<float>, 0, 1, false, sycl::buffer<float>>, (lambda at /opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/reduction.hpp:2763:28)>' requested here
+ 2819 |     reduction_parallel_for<KernelName, StrategyToUse>(CGH, NDRange, Properties,
+      |     ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/handler.hpp:2387:13: note: in instantiation of function template specialization 'sycl::detail::reduction_parallel_for<sycl::detail::auto_name, sycl::detail::reduction::strategy::auto_select, 1, sycl::ext::oneapi::experimental::properties<detail::properties_type_list<>>, sycl::detail::reduction_impl<float, sycl::maximum<float>, 0, 1, false, sycl::buffer<float>>, (lambda at /home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:53:28)>' requested here
+ 2387 |     detail::reduction_parallel_for<KernelName>(*this, Range, Properties,
+      |             ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/handler.hpp:2424:5: note: in instantiation of function template specialization 'sycl::handler::parallel_for<sycl::detail::auto_name, sycl::ext::oneapi::experimental::properties<detail::properties_type_list<>>, sycl::detail::reduction_impl<float, sycl::maximum<float>, 0, 1, false, sycl::buffer<float>> &, (lambda at /home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:53:28)>' requested here
+ 2424 |     parallel_for<KernelName>(Range,
+      |     ^
+/home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:52:15: note: in instantiation of function template specialization 'sycl::handler::parallel_for<sycl::detail::auto_name, sycl::detail::reduction_impl<float, sycl::maximum<float>, 0, 1, false, sycl::buffer<float>> &, (lambda at /home/crazyproger/sandbox/oneapi-2026/3822B1FI3/3_acc_jacobi_oneapi/budazhapova_ekaterina/acc_jacobi_oneapi.cpp:53:28)>' requested here
+   52 |             h.parallel_for(sycl::range<1>(N), reduction,
+      |               ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/detail/builtins/common_functions.inc:59:26: note: candidate template ignored: substitution failure [with T0 = sycl::reducer<float, sycl::maximum<float>, 0, 1, sycl::detail::ReductionIdentityContainer<float, sycl::maximum<float>, false>>, T1 = float]: no type named 'type' in 'sycl::detail::builtin_enable<sycl::detail::default_ret_type, sycl::detail::fp_elem_type, sycl::detail::any_shape, sycl::detail::same_elem_type, sycl::reducer<float, sycl::maximum<float>, 0, 1, sycl::detail::ReductionIdentityContainer<float, sycl::maximum<float>, false>>, float>'
+   15 | BUILTIN_COMMON(TWO_ARGS, max, __spirv_ocl_fmax_common)
+      |                          ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/detail/builtins/common_functions.inc:22:34: note: expanded from macro 'BUILTIN_COMMON'
+   22 |   DEVICE_IMPL_TEMPLATE(NUM_ARGS, NAME, builtin_enable_common_t, SPIRV_IMPL)
+      |                                  ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/detail/builtins/helper_macros.hpp:205:50: note: expanded from macro 'DEVICE_IMPL_TEMPLATE'
+  205 |   DEVICE_IMPL_TEMPLATE_CUSTOM_DELEGATE(NUM_ARGS, NAME, ENABLER,                \
+      |                                                  ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/detail/builtins/helper_macros.hpp:193:45: note: expanded from macro 'DEVICE_IMPL_TEMPLATE_CUSTOM_DELEGATE'
+  193 |   detail::ENABLER<NUM_ARGS##_TEMPLATE_TYPE>(NAME)(                             \
+      |                                             ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/detail/builtins/common_functions.inc:61:47: note: candidate template ignored: substitution failure [with T = sycl::reducer<float, sycl::maximum<float>, 0, 1, sycl::detail::ReductionIdentityContainer<float, sycl::maximum<float>, false>>]: no type named 'type' in 'sycl::detail::builtin_enable<sycl::detail::default_ret_type, sycl::detail::fp_elem_type, sycl::detail::non_scalar_only, sycl::detail::same_elem_type, sycl::reducer<float, sycl::maximum<float>, 0, 1, sycl::detail::ReductionIdentityContainer<float, sycl::maximum<float>, false>>>'
+   17 | detail::builtin_enable_common_non_scalar_t<T>(max)(
+      |                                               ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/detail/builtins/integer_functions.inc:122:29: note: candidate template ignored: substitution failure [with T0 = sycl::reducer<float, sycl::maximum<float>, 0, 1, sycl::detail::ReductionIdentityContainer<float, sycl::maximum<float>, false>>, T1 = float]: no type named 'type' in 'sycl::detail::builtin_enable<sycl::detail::default_ret_type, sycl::detail::integer_elem_type, sycl::detail::any_shape, sycl::detail::same_elem_type, sycl::reducer<float, sycl::maximum<float>, 0, 1, sycl::detail::ReductionIdentityContainer<float, sycl::maximum<float>, false>>, float>'
+   28 | BUILTIN_GENINT_SU(TWO_ARGS, max)
+      |                             ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/detail/builtins/integer_functions.inc:54:17: note: expanded from macro 'BUILTIN_GENINT_SU'
+   54 |       NUM_ARGS, NAME, builtin_enable_integer_t, [](auto... xs) {               \
+      |                 ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/detail/builtins/helper_macros.hpp:205:50: note: expanded from macro 'DEVICE_IMPL_TEMPLATE'
+  205 |   DEVICE_IMPL_TEMPLATE_CUSTOM_DELEGATE(NUM_ARGS, NAME, ENABLER,                \
+      |                                                  ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/detail/builtins/helper_macros.hpp:193:45: note: expanded from macro 'DEVICE_IMPL_TEMPLATE_CUSTOM_DELEGATE'
+  193 |   detail::ENABLER<NUM_ARGS##_TEMPLATE_TYPE>(NAME)(                             \
+      |                                             ^
+/opt/intel/oneapi/compiler/2025.1/bin/compiler/../../include/sycl/detail/builtins/integer_functions.inc:124:48: note: candidate template ignored: substitution failure [with T = sycl::reducer<float, sycl::maximum<float>, 0, 1, sycl::detail::ReductionIdentityContainer<float, sycl::maximum<float>, false>>]: no type named 'type' in 'sycl::detail::builtin_enable<sycl::detail::default_ret_type, sycl::detail::integer_elem_type, sycl::detail::non_scalar_only, sycl::detail::same_elem_type, sycl::reducer<float, sycl::maximum<float>, 0, 1, sycl::detail::ReductionIdentityContainer<float, sycl::maximum<float>, false>>>'
+   30 | detail::builtin_enable_integer_non_scalar_t<T>(max)(
+      |                                                ^
+2 warnings and 9 errors generated.
