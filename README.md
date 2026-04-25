@@ -809,6 +809,7 @@ std::vector<float> JacobiKokkos(
 ## 8_integral_kokkos (65536 elements)
 |Group|Name|Result|Rank|
 |-----|----|------|----|
+|3822B1FI2|sdobnov_vladimir|0.0002|10|
 |3822B1FI3|lysov_ivan|0.0002|7|
 |3822B1FI1|kuznetsov_mikhail|0.0003|14|
 |3822B1FI3|lopatin_ilya|0.0005|3|
@@ -928,16 +929,16 @@ Passed: 14
 ## 3822B1FI2
 |Group|Name|Passed|Score|
 |-----|----|------|-----|
-|3822B1FI2|bessonov_egor|**9/9**|**528**|
-|3822B1FI2|dormidontov_egor|**9/9**|**491**|
-|3822B1FI2|guseynov_emil|7/9|400|
-|3822B1FI2|khokhlov_andrey|**9/9**|**526**|
-|3822B1FI2|plekhanov_daniil|**9/9**|**510**|
-|3822B1FI2|sdobnov_vladimir|7/9|370|
-|3822B1FI2|shkurinskaya_elena|**9/9**|**475**|
-|3822B1FI2|vyunov_danila|6/9|319|
-|3822B1FI2|vyunova_ekaterina|7/9|386|
-|3822B1FI2|yasakova_tanya|**9/9**|**521**|
+|3822B1FI2|bessonov_egor|**9/9**|**527**|
+|3822B1FI2|dormidontov_egor|**9/9**|**490**|
+|3822B1FI2|guseynov_emil|7/9|399|
+|3822B1FI2|khokhlov_andrey|**9/9**|**525**|
+|3822B1FI2|plekhanov_daniil|**9/9**|**509**|
+|3822B1FI2|sdobnov_vladimir|8/9|425|
+|3822B1FI2|shkurinskaya_elena|**9/9**|**474**|
+|3822B1FI2|vyunov_danila|6/9|318|
+|3822B1FI2|vyunova_ekaterina|7/9|385|
+|3822B1FI2|yasakova_tanya|**9/9**|**520**|
 
 Passed: 6
 
