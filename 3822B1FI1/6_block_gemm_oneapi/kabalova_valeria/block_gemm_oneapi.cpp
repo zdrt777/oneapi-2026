@@ -3,8 +3,8 @@
 #include <iostream>
 #include <iomanip>
 
-const int BLOCKSIZE = 16;
-
+const int BLOCKSIZE = 32;
+const int LOCALSIZE = 32;
 
 std::vector<float> GemmBlockONEAPI(const std::vector<float>& a, const std::vector<float>& b, size_t size, sycl::device device){
   int block_count = size / BLOCKSIZE;
@@ -21,52 +21,63 @@ std::vector<float> GemmBlockONEAPI(const std::vector<float>& a, const std::vecto
       auto acc_a = buf_a.get_access<sycl::access::mode::read>(h);
       auto acc_b = buf_b.get_access<sycl::access::mode::read>(h);
       auto acc_c = buf_c.get_access<sycl::access::mode::write>(h);
+
+      sycl::local_accessor<float, 2> local_a(sycl::range<2>(BLOCKSIZE, BLOCKSIZE), h);
+      sycl::local_accessor<float, 2> local_b(sycl::range<2>(BLOCKSIZE, BLOCKSIZE), h);
       
-      h.parallel_for(sycl::range<2>(block_count, block_count), [=](sycl::id<2> idx) {
-        int I = idx[0];
-        int J = idx[1];
-        
+      h.parallel_for(sycl::nd_range<2>(sycl::range<2>(block_count * LOCALSIZE, block_count * LOCALSIZE), sycl::range<2>(LOCALSIZE, LOCALSIZE)),
+                                      [=](sycl::nd_item<2> item) {
+        int I = item.get_group(0);
+        int J = item.get_group(1);
+        int local_i = item.get_local_id(0);
+        int local_j = item.get_local_id(1);
+            
+        int global_i = I * BLOCKSIZE + local_i;
+        int global_j = J * BLOCKSIZE + local_j;
+        float sum = 0.0f;
+
+            
         for (int K = 0; K < block_count; ++K) {
-          for (int i = 0; i < BLOCKSIZE; ++i) {
-            for (int j = 0; j < BLOCKSIZE; ++j) {
-              float sum = 0.0f;
-              for (int k = 0; k < BLOCKSIZE; ++k) {
-                  int a_idx = (I * BLOCKSIZE + i) * size + (K * BLOCKSIZE + k);
-                  int b_idx = (K * BLOCKSIZE + k) * size + (J * BLOCKSIZE + j);
-                  sum += acc_a[a_idx] * acc_b[b_idx];
-              }
-              int c_idx = (I * BLOCKSIZE + i) * size + (J * BLOCKSIZE + j);
-              acc_c[c_idx] += sum;
-            }
+          int a_load_i = global_i;
+          int a_load_j = K * BLOCKSIZE + local_j;
+          local_a[local_i][local_j] = acc_a[a_load_i * size + a_load_j];
+          
+          int b_load_i = K * BLOCKSIZE + local_i;
+          int b_load_j = global_j;
+          local_b[local_i][local_j] = acc_b[b_load_i * size + b_load_j];
+          
+          item.barrier(sycl::access::fence_space::local_space);
+          
+          for (int k = 0; k < BLOCKSIZE; ++k) {
+            sum += local_a[local_i][k] * local_b[k][local_j];
           }
+          
+          item.barrier(sycl::access::fence_space::local_space);
         }
+            
+        int c_idx = (I * BLOCKSIZE + local_i) * size + (J * BLOCKSIZE + local_j);
+        acc_c[c_idx] = sum;
       });
     }).wait();
-
-    sycl::host_accessor result(buf_c, sycl::read_only);
-    for (int i = 0; i < ssize; ++i) {
-      c[i] = result[i];
-    }
-
   }
 
   return c;
 }
 
 
-std::vector<float> naive(const std::vector<float> a, const std::vector<float> b, size_t size){
-  std::vector<float> c(size * size, 0.0f);
+// std::vector<float> naive(const std::vector<float> a, const std::vector<float> b, size_t size){
+//   std::vector<float> c(size * size, 0.0f);
     
-  for (int i = 0; i < size; ++i) {
-      for (int j = 0; j < size; ++j) {
-          for (int k = 0; k < size; ++k) {
-              c[i * size + j] += a[i * size + k] * b[k * size + j];
-          }
-      }
-    }
+//   for (int i = 0; i < size; ++i) {
+//       for (int j = 0; j < size; ++j) {
+//           for (int k = 0; k < size; ++k) {
+//               c[i * size + j] += a[i * size + k] * b[k * size + j];
+//           }
+//       }
+//     }
     
-  return c;
-}
+//   return c;
+// }
 
 // int main() {
 //   std::cout << std::fixed << std::setprecision(6);
