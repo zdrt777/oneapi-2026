@@ -884,6 +884,7 @@ std::vector<float> JacobiKokkos(
 |3822B1FI3|budazhapova_ekaterina|0.2980|9|
 |3822B1FI1|kabalova_valeria|0.2990|17|
 |3822B1FI1|mironov_arseniy|0.2993|10|
+|3822B1FI3|shmidt_olga|0.3005|13|
 |3822B1FI1|beresnev_anton|0.3019|19|
 |3822B1FI1|grudzin_konstantin|0.3034|14|
 |3822B1FI3|lysov_ivan|0.3043|7|
@@ -910,7 +911,6 @@ std::vector<float> JacobiKokkos(
 |3822B1FI1|drozhdinov_dmitriy|0.3698|8|
 |3822B1FI3|kolodkin_grigorii|0.3787|1|
 |3822B1FI1|solovev_alexey|0.3892|3|
-|3822B1FI3|shmidt_olga|RUN FAILED|-|
 |3822B1FI1|vershinina_olga|TEST FAILED|-|
 |3822B1FI2|vyunov_danila|BUILD FAILED|-|
 
@@ -962,22 +962,22 @@ Passed: 8
 |Group|Name|Passed|Score|
 |-----|----|------|-----|
 |3822B1FI3|budazhapova_ekaterina|8/9|387|
-|3822B1FI3|chizhov_maxim|**9/9**|**454**|
-|3822B1FI3|ekaterina_kozlova|**9/9**|**479**|
-|3822B1FI3|frolova_elizaveta|**9/9**|**497**|
-|3822B1FI3|kholin_kirill|**9/9**|**474**|
-|3822B1FI3|kolodkin_grigorii|**9/9**|**497**|
+|3822B1FI3|chizhov_maxim|**9/9**|**453**|
+|3822B1FI3|ekaterina_kozlova|**9/9**|**478**|
+|3822B1FI3|frolova_elizaveta|**9/9**|**496**|
+|3822B1FI3|kholin_kirill|**9/9**|**473**|
+|3822B1FI3|kolodkin_grigorii|**9/9**|**496**|
 |3822B1FI3|koshkin_nikita|**9/9**|**442**|
-|3822B1FI3|kudryashova_irina|**9/9**|**477**|
-|3822B1FI3|lopatin_ilya|**9/9**|**501**|
-|3822B1FI3|lysov_ivan|**9/9**|**475**|
-|3822B1FI3|shmidt_olga|8/9|404|
-|3822B1FI3|solovyev_danila|**9/9**|**433**|
+|3822B1FI3|kudryashova_irina|**9/9**|**476**|
+|3822B1FI3|lopatin_ilya|**9/9**|**500**|
+|3822B1FI3|lysov_ivan|**9/9**|**474**|
+|3822B1FI3|shmidt_olga|**9/9**|**453**|
+|3822B1FI3|solovyev_danila|**9/9**|**432**|
 |3822B1FI3|sozonov_ilya|**9/9**|**484**|
 
-Passed: 11
+Passed: 12
 
-**Total Passed: 37**
+**Total Passed: 38**
 
 ---
 *Maximum Score: 576 (64 per task)*
