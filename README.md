@@ -848,6 +848,7 @@ std::vector<float> JacobiKokkos(
 |3822B1FI1|ionova_ekaterina|2.3228|6|
 |3822B1FI2|bessonov_egor|2.3230|2|
 |3822B1FI1|drozhdinov_dmitriy|2.3230|7|
+|3822B1FI3|shmidt_olga|2.3265|13|
 |3822B1FI1|beresnev_anton|2.3320|17|
 |3822B1FI3|budazhapova_ekaterina|2.9761|11|
 |3822B1FI1|shulpin_ilya|2.9876|4|
@@ -864,7 +865,6 @@ std::vector<float> JacobiKokkos(
 |3822B1FI1|shurigin_sergey|2.9995|8|
 |3822B1FI1|ivanov_mikhail|2.9996|12|
 |3822B1FI1|korobeinikov_arseny|3.0011|19|
-|3822B1FI3|shmidt_olga|RUN FAILED|-|
 
 ## 9_jacobi_kokkos (4096 elements)
 |Group|Name|Result|Rank|
@@ -961,17 +961,17 @@ Passed: 8
 ## 3822B1FI3
 |Group|Name|Passed|Score|
 |-----|----|------|-----|
-|3822B1FI3|budazhapova_ekaterina|8/9|388|
+|3822B1FI3|budazhapova_ekaterina|8/9|387|
 |3822B1FI3|chizhov_maxim|**9/9**|**454**|
 |3822B1FI3|ekaterina_kozlova|**9/9**|**479**|
 |3822B1FI3|frolova_elizaveta|**9/9**|**497**|
 |3822B1FI3|kholin_kirill|**9/9**|**474**|
 |3822B1FI3|kolodkin_grigorii|**9/9**|**497**|
-|3822B1FI3|koshkin_nikita|**9/9**|**443**|
+|3822B1FI3|koshkin_nikita|**9/9**|**442**|
 |3822B1FI3|kudryashova_irina|**9/9**|**477**|
 |3822B1FI3|lopatin_ilya|**9/9**|**501**|
 |3822B1FI3|lysov_ivan|**9/9**|**475**|
-|3822B1FI3|shmidt_olga|7/9|362|
+|3822B1FI3|shmidt_olga|8/9|404|
 |3822B1FI3|solovyev_danila|**9/9**|**433**|
 |3822B1FI3|sozonov_ilya|**9/9**|**484**|
 
