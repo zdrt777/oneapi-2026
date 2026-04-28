@@ -4,7 +4,7 @@
 #include <cmath>
 
 std::vector<float> JacobiDevONEAPI(
-        const std::vector<float> a, const std::vector<float> b,
+        const std::vector<float>& a, const std::vector<float>& b,
         float accuracy, sycl::device device) {
     const int n = static_cast<int>(b.size());
 
